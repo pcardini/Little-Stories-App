@@ -1,37 +1,66 @@
-<script>
-  const apiKey = "{{ secrets.OPENAI_API_KEY }}";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Story Generator App</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body class="bg-white">
+  <div class="container mx-auto px-4">
+    <div class="max-w-2xl mx-auto my-10">
+      <h1 class="text-2xl font-bold mb-4 text-gray-800">Story Generator App</h1>
+      <textarea id="promptInput" class="border-2 border-gray-300 p-2 w-full h-24" placeholder="Write a 50 characters prompt" maxlength="50"></textarea>
+      <div class="flex justify-between my-6">
+        <div class="happy-face" onclick="generateStory('happy')">
+          <!-- Happy face SVG code here -->
+          <p class="text-center text-gray-800">Happy Story</p>
+        </div>
+        <div class="sad-face" onclick="generateStory('dark')">
+          <!-- Sad face SVG code here -->
+          <p class="text-center text-gray-800">Dark Story</p>
+        </div>
+      </div>
+      <textarea id="storyOutput" class="border-2 border-gray-300 p-2 w-full h-48" placeholder="The final story will be written here" readonly></textarea>
+    </div>
+  </div>
 
-  function generateStory(type) {
-    const promptInput = document.getElementById('promptInput');
-    const storyOutput = document.getElementById('storyOutput');
-    const promptText = promptInput.value.trim();
+  <script>
+    function generateStory(type) {
+      const promptInput = document.getElementById('promptInput');
+      const storyOutput = document.getElementById('storyOutput');
+      const promptText = promptInput.value.trim();
 
-    if (promptText.length === 0) {
-      alert('Please write a prompt.');
-      return;
-    }
-
-    const data = {
-      prompt: promptText,
-      max_tokens: 200,
-      temperature: type === 'happy' ? 0.5 : 0.7,
-      top_p: 1,
-      frequency_penalty: 0,
-      presence_penalty: 0
-    };
-
-    axios.post('https://api.openai.com/v1/engines/text-davinci-003/completions', data, {
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
+      if (promptText.length === 0) {
+        alert('Please write a prompt.');
+        return;
       }
-    })
-    .then(response => {
-      storyOutput.value = response.data.choices[0].text.trim();
-    })
-    .catch(error => {
-      console.error('Error generating story:', error);
-      alert('Failed to generate story. Please try again.');
-    });
-  }
-</script>
+
+      const data = {
+        prompt: promptText,
+        max_tokens: 200,
+        temperature: type === 'happy' ? 0.5 : 0.7,
+        top_p: 1,
+        frequency_penalty: 0,
+        presence_penalty: 0
+      };
+
+      const apiKey = "{{ secrets.OPENAI_API_KEY }}"; // Reference to GitHub Secret
+
+      axios.post('https://cors-anywhere.herokuapp.com/https://api.openai.com/v1/engines/text-davinci-003/completions', data, {
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(response => {
+          storyOutput.value = response.data.choices[0].text.trim();
+        })
+        .catch(error => {
+          console.error('Error generating story:', error);
+          alert('Failed to generate story. Please check the console for details.');
+        });
+    }
+  </script>
+</body>
+</html>
