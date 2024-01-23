@@ -13,11 +13,20 @@
       <textarea id="promptInput" class="border-2 border-gray-300 p-2 w-full h-24" placeholder="Write a 50 characters prompt" maxlength="50"></textarea>
       <div class="flex justify-between my-6">
         <div class="happy-face" onclick="generateStory('happy')">
-          <!-- Happy face SVG code here -->
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-16 h-16 text-yellow-400">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-2.318 1.25-2.318-1.25m0 0a4.5 4.5 0 11-2.318 7.5 4.5 4.5 0 012.318-7.5z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 15.5a4.5 4.5 0 007 0" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.5 9.5a1.5 1.5 0 013 0m3 0a1.5 1.5 0 013 0" />
+          </svg>
           <p class="text-center text-gray-800">Happy Story</p>
         </div>
         <div class="sad-face" onclick="generateStory('dark')">
-          <!-- Sad face SVG code here -->
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-16 h-16 text-blue-400">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.828a4 4 0 005.656 0" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9c0 1.105-1.79 2-4 2s-4-.895-4-2 1.79-2 4-2 4 .895 4 2z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 9c0 1.105-1.79 2-4 2s-4-.895-4-2 1.79-2 4-2 4 .895 4 2z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 9c0 1.105-1.79 2-4 2s-4-.895-4-2 1.79-2 4-2 4 .895 4 2z" />
+          </svg>
           <p class="text-center text-gray-800">Dark Story</p>
         </div>
       </div>
@@ -45,7 +54,7 @@
         presence_penalty: 0
       };
 
-      const apiKey = process.env.OPENAI_API_KEY; // Retrieve API key from environment variable
+      const apiKey = "{{ secrets.OPENAI_API_KEY }}"; // Reference to GitHub Secret
 
       axios.post('https://api.openai.com/v1/engines/text-davinci-003/completions', data, {
           headers: {
