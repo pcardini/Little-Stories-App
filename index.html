@@ -1,58 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Story Generator App</title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <style>
-        /* Add your CSS styles here */
-        .button {
-            cursor: pointer;
-            padding: 10px;
-            margin: 5px;
-            background-color: lightgray;
-            border: none;
-            border-radius: 5px;
-        }
-        .button:hover {
-            background-color: gray;
-            color: white;
-        }
-    </style>
-</head>
-<body>
-    <div>
-        <h1>Story Generator App</h1>
-        <textarea id="promptInput" placeholder="Write a 50 characters prompt" maxlength="50"></textarea>
-        <button class="button" onclick="generateStory('dark')">Dark Story</button>
-        <button class="button" onclick="generateStory('dreamy')">Dreamy Story</button>
-        <textarea id="storyOutput" placeholder="The final story will be written here" readonly></textarea>
-    </div>
+function generateStory(type) {
+  const promptInput = document.getElementById('promptInput').value.trim();
+  if (promptInput.length === 0) {
+      alert('Please write a prompt.');
+      return;
+  }
 
-    <script>
-        function generateStory(type) {
-            const promptInput = document.getElementById('promptInput').value.trim();
-            if (promptInput.length === 0) {
-                alert('Please write a prompt.');
-                return;
-            }
+  const storyType = type === 'dark' ? 'Write a dark story: ' : 'Write a dreamy story: ';
+  const data = {
+      prompt: storyType + promptInput,
+      max_tokens: 200
+  };
 
-            const storyType = type === 'dark' ? 'Write a dark story: ' : 'Write a dreamy story: ';
-            const data = {
-                prompt: storyType + promptInput,
-                max_tokens: 200
-            };
-
-            axios.post('/.netlify/functions/storyGenerator', data)
-                .then(response => {
-                    document.getElementById('storyOutput').value = response.data;
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Failed to generate story. Please try again.');
-                });
-        }
-    </script>
-</body>
-</html>
+  axios.post('/.netlify/functions/storyGenerator', data)
+      .then(response => {
+          document.getElementById('storyOutput').value = response.data;
+      })
+      .catch(error => {
+          console.error('Error:', error);
+          alert('Failed to generate story. Please try again.');
+      });
+}
