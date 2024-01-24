@@ -1,2 +1,8 @@
 [build]
-  functions = "netlify/functions"
+  # Directory to deploy to Netlify (where your index.html and other static files are)
+  publish = "public" 
+
+  # Directory where your serverless functions are located
+  functions = "netlify/functions" 
+
+# You can also add other configurations here as needed
