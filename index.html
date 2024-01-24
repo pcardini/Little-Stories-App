@@ -11,7 +11,7 @@ function generateStory(type) {
       max_tokens: 200
   };
 
-  axios.post('/.netlify/functions/storyGenerator', data)
+  axios.post('/.netlify/functions/generateStory', data)
       .then(response => {
           document.getElementById('storyOutput').value = response.data;
       })
